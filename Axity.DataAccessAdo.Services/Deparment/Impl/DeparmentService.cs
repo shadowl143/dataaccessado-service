@@ -10,6 +10,7 @@ namespace Axity.DataAccessAdo.Services.Deparment.Impl
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Axity.DataAccessAdo.DataAccess.DAO.Department;
     using Axity.DataAccessAdo.Dtos.Deparment;
     using Axity.DataAccessAdo.Services.Deparment;
 
@@ -18,13 +19,13 @@ namespace Axity.DataAccessAdo.Services.Deparment.Impl
     /// </summary>
     public class DeparmentService : IDeparmentService
     {
-        private readonly IDeparmentService modelDao;
+        private readonly IDeparmentDao modelDao;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeparmentService"/> class.
         /// </summary>
         /// <param name="modelDao">model dao.</param>
-        public DeparmentService(IDeparmentService modelDao)
+        public DeparmentService(IDeparmentDao modelDao)
         {
             this.modelDao = modelDao;
         }
@@ -42,9 +43,23 @@ namespace Axity.DataAccessAdo.Services.Deparment.Impl
         }
 
         /// <inheritdoc/>
-        public Task<List<DeparmentDto>> GetAll()
+        public async Task<List<DeparmentDto>> GetAll()
         {
-            throw new System.NotImplementedException();
+            var deparmentModel = await this.modelDao.GetAll();
+            var model = new List<DeparmentDto>();
+            foreach (var item in deparmentModel)
+            {
+                model.Add(new DeparmentDto
+                {
+                    Id = item.Id,
+                    Administrator = item.Administratr,
+                    Budget = item.Budget,
+                    Date = item.StartDate,
+                    Name = item.Name,
+                });
+            }
+
+            return model;
         }
 
         /// <inheritdoc/>

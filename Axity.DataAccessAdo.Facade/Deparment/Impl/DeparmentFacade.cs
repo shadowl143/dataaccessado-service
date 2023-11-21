@@ -43,9 +43,9 @@ namespace Axity.DataAccessAdo.Facade.Deparment.Impl
         }
 
         /// <inheritdoc/>
-        public Task<ServiceResponse<List<DeparmentDto>>> GetAll()
+        public async Task<ServiceResponse<List<DeparmentDto>>> GetAll()
         {
-            throw new System.NotImplementedException();
+            return new ServiceResponse<List<DeparmentDto>>(await this.modelService.GetAll());
         }
 
         /// <inheritdoc/>

@@ -8,10 +8,23 @@
 
 namespace Axity.DataAccessAdo.Dtos.Deparment
 {
+    using System;
+
     /// <summary>
     /// DeparmentDto.
     /// </summary>
     public class DeparmentDto
     {
+        // <summary>
+        /// Gets or sets column DeparmentId.
+        /// </summary>
+        /// <value>int primary key deparmentId</value>
+        public int Id { get; set; }
+        public string Name{ get; set; }
+        public decimal Budget { get; set; }
+        public DateTime Date { get; set; }
+        public int Administrator { get; set; }
+
+        public string AdministratorName { get; set; }
     }
 }

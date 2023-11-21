@@ -19,6 +19,11 @@ namespace Axity.DataAccessAdo.DependencyInjection
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Axity.DataAccessAdo.Services.Deparment;
+    using Axity.DataAccessAdo.Services.Deparment.Impl;
+    using Axity.DataAccessAdo.Facade.Deparment;
+    using Axity.DataAccessAdo.Facade.Deparment.Impl;
+    using Axity.DataAccessAdo.DataAccess.DAO.Department;
 
     /// <summary>
     /// Class for DependencyInjector.
@@ -38,6 +43,11 @@ namespace Axity.DataAccessAdo.DependencyInjection
             Services.AddTransient<IDataAccessAdoFacade, DataAccessAdoFacade>();
             Services.AddTransient<IDataAccessAdoService, DataAccessAdoService>();
             Services.AddTransient<IDataAccessAdoDao, DataAccessAdoDao>();
+
+            Services.AddTransient<IDeparmentFacade, DeparmentFacade>();
+            Services.AddTransient<IDeparmentService, DeparmentService>();
+            Services.AddTransient<IDeparmentDao, DepartmentDao>();
+
             Services.AddTransient<IDatabaseContext, DatabaseContext>();
             return Services;
         }

@@ -8,10 +8,21 @@
 
 namespace Axity.DataAccessAdo.Entities.Model
 {
+    using System;
+
     /// <summary>
     /// Deparment model table.
     /// </summary>
     public class DeparmentModel
     {
+        /// <summary>
+        /// Gets or sets column DeparmentId.
+        /// </summary>
+        /// <value>int primary key deparmentId</value>
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public decimal Budget { get; set; }
+        public DateTime StartDate { get; set; }
+        public int Administratr { get; set; }
     }
 }

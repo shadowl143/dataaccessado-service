@@ -14,7 +14,10 @@
       "launchBrowser": true,
       "launchUrl": "api",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DataBaseSql": "Server=LAPTOP-C0J1I6CB\\SQLEXPRESS;Database=MySchool;user id=sa;password=root;MultipleActiveResultSets=True;Connection;",
+        "DataBaseMySql": "Server=http://localhost:85/phpmyadmin/index.php?route=/database/sql&db=mysql;Database=MySchool;user id=sa;pda=Mexico123*;MultipleActiveResultSets=True;Connection Timeout=5;",
+        "DataBaseSqlLite": "Data Source=C:\\Users\\julian.lara\\Documents\\Axity\\Curso\\dataaccessado-service\\MySchool.db;Version=3;UseUTF16Encoding=True;"
       }
     },
     "Axity.DataAccessAdo.Api": {
