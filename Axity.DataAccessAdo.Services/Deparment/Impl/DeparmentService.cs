@@ -12,6 +12,7 @@ namespace Axity.DataAccessAdo.Services.Deparment.Impl
     using System.Threading.Tasks;
     using Axity.DataAccessAdo.DataAccess.DAO.Department;
     using Axity.DataAccessAdo.Dtos.Deparment;
+    using Axity.DataAccessAdo.Entities.Model;
     using Axity.DataAccessAdo.Services.Deparment;
 
     /// <summary>
@@ -31,9 +32,18 @@ namespace Axity.DataAccessAdo.Services.Deparment.Impl
         }
 
         /// <inheritdoc/>
-        public Task<int> Create(DeparmentDto model)
+        public async Task<int> Create(DeparmentDto model)
         {
-            throw new System.NotImplementedException();
+            var deparmentModel = new DeparmentModel
+            {
+                Id = model.Id,
+                Budget = model.Budget,
+                Administratr = model.Administrator,
+                Name = model.Name,
+                StartDate = model.Date,
+            };
+
+            return await this.modelDao.Create(deparmentModel);
         }
 
         /// <inheritdoc/>
@@ -63,27 +73,59 @@ namespace Axity.DataAccessAdo.Services.Deparment.Impl
         }
 
         /// <inheritdoc/>
-        public Task<List<DeparmentDto>> GetAllSp()
+        public async Task<List<DeparmentDto>> GetAllSp()
         {
             throw new System.NotImplementedException();
+
         }
 
         /// <inheritdoc/>
-        public Task<List<DeparmentDto>> GetById(int id)
+        public async Task<DeparmentDto> GetById(int id)
         {
-            throw new System.NotImplementedException();
+            // var deparmentModel = await this.modelDao.GetById(id);
+              var deparmentModel = await this.modelDao.GetByIdSp(id);
+            return new DeparmentDto
+            {
+                Id = deparmentModel.Id,
+                Administrator = deparmentModel.Administratr,
+                Budget = deparmentModel.Budget,
+                Date = deparmentModel.StartDate,
+                Name = deparmentModel.Name,
+            };
         }
 
         /// <inheritdoc/>
-        public Task<List<DeparmentDto>> GetByIdSp(int id)
+        public async Task<DeparmentDto> GetByIdSp(int id)
         {
-            throw new System.NotImplementedException();
+            var deparmentModel = await this.modelDao.GetByIdSp(id);
+            return new DeparmentDto
+            {
+                Id = deparmentModel.Id,
+                Administrator = deparmentModel.Administratr,
+                Budget = deparmentModel.Budget,
+                Date = deparmentModel.StartDate,
+                Name = deparmentModel.Name,
+            };
         }
 
         /// <inheritdoc/>
-        public Task<List<DeparmentDto>> GetInjection(string description)
+        public async Task<List<DeparmentDto>> GetInjection(string description)
         {
-            throw new System.NotImplementedException();
+            var deparmentModel = await this.modelDao.GetInjection(description);
+            var model = new List<DeparmentDto>();
+            foreach (var item in deparmentModel)
+            {
+                model.Add(new DeparmentDto
+                {
+                    Id = item.Id,
+                    Administrator = item.Administratr,
+                    Budget = item.Budget,
+                    Date = item.StartDate,
+                    Name = item.Name,
+                });
+            }
+
+            return model;
         }
 
         /// <inheritdoc/>

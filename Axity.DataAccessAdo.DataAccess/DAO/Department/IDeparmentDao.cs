@@ -28,7 +28,7 @@ namespace Axity.DataAccessAdo.DataAccess.DAO.Department
         /// </summary>
         /// <param name="id">deparment id.</param>
         /// <returns>deparment.</returns>
-        Task<List<DeparmentModel>> GetById(int id);
+        Task<DeparmentModel> GetById(int id);
 
         /// <summary>
         /// Example of injection dependicy.
@@ -70,7 +70,7 @@ namespace Axity.DataAccessAdo.DataAccess.DAO.Department
         /// </summary>
         /// <param name="id">int id.</param>
         /// <returns>deparment.</returns>
-        Task<List<DeparmentModel>> GetByIdSp(int id);
+        Task<DeparmentModel> GetByIdSp(int id);
 
         /// <summary>
         /// Example storage procedure.

@@ -31,15 +31,17 @@ namespace Axity.DataAccessAdo.Facade.Deparment.Impl
         }
 
         /// <inheritdoc/>
-        public Task<ServiceResponse<int>> Create(DeparmentDto model)
+        public async Task<ServiceResponse<int>> Create(DeparmentDto model)
         {
-            throw new System.NotImplementedException();
+            return new ServiceResponse<int>(await this.modelService.Create(model));
+
         }
 
         /// <inheritdoc/>
-        public Task<ServiceResponse<int>> CreateSp(DeparmentDto model)
+        public async Task<ServiceResponse<int>> CreateSp(DeparmentDto model)
         {
-            throw new System.NotImplementedException();
+            return new ServiceResponse<int>(await this.modelService.CreateSp(model));
+
         }
 
         /// <inheritdoc/>
@@ -49,39 +51,44 @@ namespace Axity.DataAccessAdo.Facade.Deparment.Impl
         }
 
         /// <inheritdoc/>
-        public Task<ServiceResponse<List<DeparmentDto>>> GetAllSp()
+        public async Task<ServiceResponse<List<DeparmentDto>>> GetAllSp()
         {
-            throw new System.NotImplementedException();
+            return new ServiceResponse<List<DeparmentDto>>(await this.modelService.GetAllSp());
         }
 
         /// <inheritdoc/>
-        public Task<ServiceResponse<List<DeparmentDto>>> GetById(int id)
+        public async Task<ServiceResponse<DeparmentDto>> GetById(int id)
         {
-            throw new System.NotImplementedException();
+            return new ServiceResponse<DeparmentDto>(await this.modelService.GetById(id));
+
         }
 
         /// <inheritdoc/>
-        public Task<ServiceResponse<List<DeparmentDto>>> GetByIdSp(int id)
+        public async Task<ServiceResponse<DeparmentDto>> GetByIdSp(int id)
         {
-            throw new System.NotImplementedException();
+            return new ServiceResponse<DeparmentDto>(await this.modelService.GetByIdSp(id));
+
         }
 
         /// <inheritdoc/>
-        public Task<ServiceResponse<List<DeparmentDto>>> GetInjection(string description)
+        public async Task<ServiceResponse<List<DeparmentDto>>> GetInjection(string description)
         {
-            throw new System.NotImplementedException();
+            return new ServiceResponse<List<DeparmentDto>>(await this.modelService.GetAllSp());
+
         }
 
         /// <inheritdoc/>
-        public Task<ServiceResponse<List<DeparmentDto>>> GetPaginator(int page, int size)
+        public async Task<ServiceResponse<List<DeparmentDto>>> GetPaginator(int page, int size)
         {
-            throw new System.NotImplementedException();
+            return new ServiceResponse<List<DeparmentDto>>(await this.modelService.GetAllSp());
+
         }
 
         /// <inheritdoc/>
-        public Task<ServiceResponse<int>> Update(DeparmentDto model)
+        public async Task<ServiceResponse<int>> Update(DeparmentDto model)
         {
-            throw new System.NotImplementedException();
+            return new ServiceResponse<int>(await this.modelService.Update(model));
+
         }
     }
 }

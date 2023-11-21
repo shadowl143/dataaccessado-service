@@ -10,6 +10,7 @@ namespace Axity.DataAccessAdo.DataAccess.DAO.Department
 {
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Threading.Tasks;
     using Axity.DataAccessAdo.Entities.Model;
     using Axity.DataAccessAdo.Resources.Exceptions;
@@ -35,9 +36,36 @@ namespace Axity.DataAccessAdo.DataAccess.DAO.Department
         }
 
         /// <inheritdoc/>
-        public Task<int> Create(DeparmentModel model)
+        public async Task<int> Create(DeparmentModel model)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(this.connectionString))
+                {
+                    using SqlCommand cmd = sqlConnection.CreateCommand();
+                    cmd.CommandText = "insert into Department (Name, Budget, StartDate, Administrator) values (@Name,@Budget,@StartDate,@Administrator);";
+                    cmd.CommandType = CommandType.Text;
+
+                    cmd.Parameters.Add("@Name", SqlDbType.VarChar);
+                    cmd.Parameters.Add("@Budget", SqlDbType.Decimal);
+                    cmd.Parameters.Add("@StartDate", SqlDbType.Date);
+                    cmd.Parameters.Add("@Administrator", SqlDbType.Int);
+
+                    cmd.Parameters["@Name"].Value = model.Name;
+                    cmd.Parameters["@Budget"].Value = model.Budget;
+                    cmd.Parameters["@StartDate"].Value = model.StartDate;
+                    cmd.Parameters["@Administrator"].Value = model.Administratr;
+                    sqlConnection.Open();
+                    var execute = await cmd.ExecuteNonQueryAsync();
+                    return execute;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new BusinessException("Error consulte al administredor");
+            }
+            
         }
 
         /// <inheritdoc/>
@@ -54,17 +82,18 @@ namespace Axity.DataAccessAdo.DataAccess.DAO.Department
                 var departmets = new List<DeparmentModel>();
                 using (SqlConnection con = new SqlConnection(this.connectionString))
                 {
+                    SqlCommand comman = new SqlCommand("select a.DepartmentID, a.Name, a.Budget,a.StartDate, a.Administrator from Department a", con);
                     con.Open();
-                    SqlCommand comman = new SqlCommand("select DeparmentID, Name, Budget, StarDate, administrator from deparment");
                     var reader = await comman.ExecuteReaderAsync();
                     while (reader.Read())
                     {
                         departmets.Add(new DeparmentModel()
                         {
                             Id = Convert.ToInt32(reader[0].ToString()),
-                            Name = reader[0].ToString(),
-                            Budget = Convert.ToInt32(reader[0].ToString()),
-                            StartDate = Convert.ToDateTime(reader[0].ToString()),
+                            Name = reader[1].ToString(),
+                            Budget = Convert.ToDecimal(reader[2].ToString()),
+                            StartDate = Convert.ToDateTime(reader[3].ToString()),
+                            Administratr = Convert.ToInt32(reader[4].ToString()),
                         });
                     }
                     return departmets;
@@ -84,21 +113,117 @@ namespace Axity.DataAccessAdo.DataAccess.DAO.Department
         }
 
         /// <inheritdoc/>
-        public Task<List<DeparmentModel>> GetById(int id)
+        public async Task<DeparmentModel> GetById(int id)
         {
-            throw new System.NotImplementedException();
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(this.connectionString))
+                {
+                    var query = $"select DepartmentID, Name, Budget, StartDate, Administrator from Department where DepartmentID = @id";
+                    using SqlCommand comman = new SqlCommand();
+                    comman.Connection = con;
+                    comman.CommandType = CommandType.Text;
+                    comman.CommandText = query;
+                    comman.Parameters.Add("@id", SqlDbType.Int);
+                    comman.Parameters["@id"].Value = id;
+
+                    con.Open();
+                    var reader = await comman.ExecuteReaderAsync();
+                    if (reader.Read())
+                    {
+                        return new DeparmentModel()
+                        {
+                            Id = Convert.ToInt32(reader["DepartmentID"].ToString()),
+                            Name = reader["Name"].ToString(),
+                            Budget = Convert.ToDecimal(reader["Budget"].ToString()),
+                            StartDate = Convert.ToDateTime(reader["StartDate"].ToString()),
+                            Administratr = Convert.ToInt32(reader["Administrator"].ToString()),
+                        };
+                    }
+                    throw new NotFoundException("Dato no encontrado");
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new BusinessException("Error consulte al administredor");
+            }
         }
 
         /// <inheritdoc/>
-        public Task<List<DeparmentModel>> GetByIdSp(int id)
+        public async Task<DeparmentModel> GetByIdSp(int id)
         {
-            throw new System.NotImplementedException();
+
+
+            try
+            {
+                var departmets = new DeparmentModel();
+                using (SqlConnection con = new SqlConnection(this.connectionString))
+                {
+                    var query = $"GetById";
+                    using SqlCommand comman = new SqlCommand();
+                    comman.Connection = con;
+                    comman.CommandType = CommandType.StoredProcedure;
+                    comman.CommandText = query;
+                    comman.Parameters.Add("@departmentId", SqlDbType.Int);
+                    comman.Parameters["@departmentId"].Value = id;
+
+                    con.Open();
+                    var reader = await comman.ExecuteReaderAsync();
+                    if (reader.Read())
+                    {
+                        departmets = new DeparmentModel()
+                        {
+                            Id = Convert.ToInt32(reader["DepartmentID"].ToString()),
+                            Name = reader["Name"].ToString(),
+                            Budget = Convert.ToDecimal(reader["Budget"].ToString()),
+                            StartDate = Convert.ToDateTime(reader["StartDate"].ToString()),
+                            Administratr = Convert.ToInt32(reader["Administrator"].ToString()),
+                        };
+                    }
+                    return departmets;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new BusinessException("Error consulte al administredor");
+            }
         }
 
         /// <inheritdoc/>
-        public Task<List<DeparmentModel>> GetInjection(string description)
+        public async Task<List<DeparmentModel>> GetInjection(string description)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var departmets = new List<DeparmentModel>();
+                using (SqlConnection con = new SqlConnection(this.connectionString))
+                {
+                    var query = $"select a.DepartmentID, a.Name, a.Budget,a.StartDate, a.Administrator from Department a where a.name = '{description}'";
+                    SqlCommand comman = new SqlCommand(query, con);
+                    con.Open();
+                    var reader = await comman.ExecuteReaderAsync();
+                    while (reader.Read())
+                    {
+                        departmets.Add(new DeparmentModel()
+                        {
+                            Id = Convert.ToInt32(reader[0].ToString()),
+                            Name = reader[1].ToString(),
+                            Budget = Convert.ToDecimal(reader[2].ToString()),
+                            StartDate = Convert.ToDateTime(reader[3].ToString()),
+                            Administratr = Convert.ToInt32(reader[4].ToString()),
+                        });
+                    }
+                    return departmets;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new BusinessException("Error consulte al administredor");
+            }
         }
 
         /// <inheritdoc/>

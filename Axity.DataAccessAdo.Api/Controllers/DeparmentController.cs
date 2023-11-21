@@ -53,10 +53,10 @@ namespace Axity.DataAccessAdo.Api.Controllers
         /// <returns>Service response.</returns>
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ServiceResponse<List<DeparmentDto>>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("{id}")]
-        public async Task<ServiceResponse<List<DeparmentDto>>> GetById([FromQuery][Required] int id)
+        [HttpGet("{id}/id")]
+        public async Task<ServiceResponse<DeparmentDto>> GetById([Required] int id)
         {
-            return await this.modelFacede.GetAll();
+            return await this.modelFacede.GetById(id);
         }
 
         /// <summary>
@@ -91,9 +91,21 @@ namespace Axity.DataAccessAdo.Api.Controllers
         /// <returns>Service response.</returns>
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ServiceResponse<List<DeparmentDto>>))]
         [HttpGet("spid")]
-        public async Task<ServiceResponse<List<DeparmentDto>>> GetByIdSp([FromQuery][Required] int id)
+        public async Task<ServiceResponse<DeparmentDto>> GetByIdSp([FromQuery][Required] int id)
         {
             return await this.modelFacede.GetByIdSp(id);
+        }
+
+        /// <summary>
+        /// Get All.
+        /// </summary>
+        /// <param name="description">int id.</param>
+        /// <returns>Service response.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ServiceResponse<List<DeparmentDto>>))]
+        [HttpGet("inject")]
+        public async Task<ServiceResponse<List<DeparmentDto>>> GetByIdSp([FromQuery][Required] string description)
+        {
+            return await this.modelFacede.GetInjection(description);
         }
 
         /// <summary>

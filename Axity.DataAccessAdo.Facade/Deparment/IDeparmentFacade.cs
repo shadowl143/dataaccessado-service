@@ -29,7 +29,7 @@ namespace Axity.DataAccessAdo.Facade.Deparment
         /// </summary>
         /// <param name="id">deparment id.</param>
         /// <returns>deparment.</returns>
-        Task<ServiceResponse<List<DeparmentDto>>> GetById(int id);
+        Task<ServiceResponse<DeparmentDto>> GetById(int id);
 
         /// <summary>
         /// Example of injection dependicy.
@@ -71,7 +71,7 @@ namespace Axity.DataAccessAdo.Facade.Deparment
         /// </summary>
         /// <param name="id">int id.</param>
         /// <returns>deparment.</returns>
-        Task<ServiceResponse<List<DeparmentDto>>> GetByIdSp(int id);
+        Task<ServiceResponse<DeparmentDto>> GetByIdSp(int id);
 
         /// <summary>
         /// Example storage procedure.
