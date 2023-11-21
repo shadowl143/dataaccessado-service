@@ -1,0 +1,32 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+		"iisExpress": {
+			"applicationUrl": "http://localhost:9090/",
+			"sslPort": 0
+		}
+  },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "api",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Axity.DataAccessAdo.Api": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DataBaseSql": "Server=LAPTOP-C0J1I6CB\\SQLEXPRESS;Database=MySchool;user id=sa;password=root;MultipleActiveResultSets=True;Connection Timeout=5;",
+        "DataBaseMySql": "Server=http://localhost:85/phpmyadmin/index.php?route=/database/sql&db=mysql;Database=MySchool;user id=sa;pda=Mexico123*;MultipleActiveResultSets=True;Connection Timeout=5;",
+        "DataBaseSqlLite": "Data Source=C:\\Users\\julian.lara\\Documents\\Axity\\Curso\\dataaccessado-service\\MySchool.db;Version=3;UseUTF16Encoding=True;"
+      },
+      "applicationUrl": "http://localhost:9090"
+    }
+  }
+}
