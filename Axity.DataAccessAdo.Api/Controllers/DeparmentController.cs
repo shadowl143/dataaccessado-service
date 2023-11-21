@@ -62,6 +62,19 @@ namespace Axity.DataAccessAdo.Api.Controllers
         /// <summary>
         /// Get All.
         /// </summary>
+        /// <param name="id">int id.</param>
+        /// <returns>Service response.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ServiceResponse<List<DeparmentDto>>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("{id}/departamento")]
+        public async Task<ServiceResponse<DepartamentoDto>> GetByAutId([Required] int id)
+        {
+            return await this.modelFacede.GetByAutId(id);
+        }
+
+        /// <summary>
+        /// Get All.
+        /// </summary>
         /// <param name="page">page to display.</param>
         /// <param name="size">Number of records to display.</param>
         /// <returns>Service response.</returns>

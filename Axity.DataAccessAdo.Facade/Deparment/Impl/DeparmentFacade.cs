@@ -56,6 +56,11 @@ namespace Axity.DataAccessAdo.Facade.Deparment.Impl
             return new ServiceResponse<List<DeparmentDto>>(await this.modelService.GetAllSp());
         }
 
+        public async Task<ServiceResponse<DepartamentoDto>> GetByAutId(int id)
+        {
+            return new ServiceResponse<DepartamentoDto>(await this.modelService.GetByAutId(id));
+        }
+
         /// <inheritdoc/>
         public async Task<ServiceResponse<DeparmentDto>> GetById(int id)
         {

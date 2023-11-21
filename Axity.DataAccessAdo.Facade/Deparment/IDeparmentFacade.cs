@@ -32,6 +32,13 @@ namespace Axity.DataAccessAdo.Facade.Deparment
         Task<ServiceResponse<DeparmentDto>> GetById(int id);
 
         /// <summary>
+        /// Get by id deparment rows.
+        /// </summary>
+        /// <param name="id">deparment id.</param>
+        /// <returns>deparment.</returns>
+        Task<ServiceResponse<DepartamentoDto>> GetByAutId(int id);
+
+        /// <summary>
         /// Example of injection dependicy.
         /// </summary>
         /// <param name="description">description for inyection dependicy.</param>

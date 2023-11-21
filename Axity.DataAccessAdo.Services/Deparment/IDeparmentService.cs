@@ -30,6 +30,14 @@ namespace Axity.DataAccessAdo.Services.Deparment
         /// <returns>deparment.</returns>
         Task<DeparmentDto> GetById(int id);
 
+
+        /// <summary>
+        /// Get by id deparment rows.
+        /// </summary>
+        /// <param name="id">deparment id.</param>
+        /// <returns>deparment.</returns>
+        Task<DepartamentoDto> GetByAutId(int id);
+
         /// <summary>
         /// Example of injection dependicy.
         /// </summary>

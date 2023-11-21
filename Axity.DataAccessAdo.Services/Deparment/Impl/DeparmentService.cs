@@ -12,6 +12,7 @@ namespace Axity.DataAccessAdo.Services.Deparment.Impl
     using System.Collections.Generic;
     using System.Data;
     using System.Threading.Tasks;
+    using AutoMapper;
     using Axity.DataAccessAdo.DataAccess.DAO.Department;
     using Axity.DataAccessAdo.Dtos.Deparment;
     using Axity.DataAccessAdo.Entities.Model;
@@ -23,14 +24,16 @@ namespace Axity.DataAccessAdo.Services.Deparment.Impl
     public class DeparmentService : IDeparmentService
     {
         private readonly IDeparmentDao modelDao;
+        private readonly IMapper mapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeparmentService"/> class.
         /// </summary>
         /// <param name="modelDao">model dao.</param>
-        public DeparmentService(IDeparmentDao modelDao)
+        public DeparmentService(IDeparmentDao modelDao, IMapper mapper)
         {
             this.modelDao = modelDao;
+            this.mapper = mapper;
         }
 
         /// <inheritdoc/>
@@ -81,19 +84,17 @@ namespace Axity.DataAccessAdo.Services.Deparment.Impl
 
         }
 
+        public async Task<DepartamentoDto> GetByAutId(int id)
+        {
+            var modelDto = this.mapper.Map<DepartamentoDto>(await this.modelDao.GetById(id));
+            return modelDto;
+        }
+
         /// <inheritdoc/>
         public async Task<DeparmentDto> GetById(int id)
         {
-            var deparmentModel = await this.modelDao.GetById(id);
-            //  var deparmentModel = await this.modelDao.GetByIdSp(id);
-            return new DeparmentDto
-            {
-                Id = deparmentModel.Id,
-                Administrator = deparmentModel.Administratr,
-                Budget = deparmentModel.Budget,
-                Date = deparmentModel.StartDate,
-                Name = deparmentModel.Name,
-            };
+            var deparmentModel = this.mapper.Map<DeparmentDto>(await this.modelDao.GetById(id));
+            return deparmentModel;
         }
 
         /// <inheritdoc/>
