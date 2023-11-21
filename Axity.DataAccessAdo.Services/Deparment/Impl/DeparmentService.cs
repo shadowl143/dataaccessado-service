@@ -8,7 +8,9 @@
 
 namespace Axity.DataAccessAdo.Services.Deparment.Impl
 {
+    using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Threading.Tasks;
     using Axity.DataAccessAdo.DataAccess.DAO.Department;
     using Axity.DataAccessAdo.Dtos.Deparment;
@@ -82,8 +84,8 @@ namespace Axity.DataAccessAdo.Services.Deparment.Impl
         /// <inheritdoc/>
         public async Task<DeparmentDto> GetById(int id)
         {
-            // var deparmentModel = await this.modelDao.GetById(id);
-              var deparmentModel = await this.modelDao.GetByIdSp(id);
+            var deparmentModel = await this.modelDao.GetById(id);
+            //  var deparmentModel = await this.modelDao.GetByIdSp(id);
             return new DeparmentDto
             {
                 Id = deparmentModel.Id,
@@ -129,9 +131,24 @@ namespace Axity.DataAccessAdo.Services.Deparment.Impl
         }
 
         /// <inheritdoc/>
-        public Task<List<DeparmentDto>> GetPaginator(int page, int size)
+        public async Task<List<DeparmentDto>> GetPaginator(int page, int size)
         {
-            throw new System.NotImplementedException();
+            var model = new List<DeparmentDto>();
+            DataSet ds = await this.modelDao.GetPaginator(page, size);
+            DataTable table = ds.Tables[0];
+            foreach (DataRow item in table.Rows)
+            {
+                Console.WriteLine(item);
+                model.Add(new DeparmentDto
+                {
+                    Id = Convert.ToInt32(item[0].ToString()),
+                    Administrator = Convert.ToInt32(item[4].ToString()),
+                    Budget = Convert.ToDecimal(item[2].ToString()),
+                    Date = Convert.ToDateTime(item[3].ToString()),
+                    Name = item[1].ToString(),
+                });
+            }
+            return model;
         }
 
         /// <inheritdoc/>

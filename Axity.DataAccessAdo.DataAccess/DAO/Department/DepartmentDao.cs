@@ -65,13 +65,39 @@ namespace Axity.DataAccessAdo.DataAccess.DAO.Department
                 Console.WriteLine(ex.Message);
                 throw new BusinessException("Error consulte al administredor");
             }
-            
+
         }
 
         /// <inheritdoc/>
-        public Task<int> CreateSp(DeparmentModel model)
+        public async Task<int> CreateSp(DeparmentModel model)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(this.connectionString))
+                {
+                    using SqlCommand cmd = sqlConnection.CreateCommand();
+                    cmd.CommandText = "SaveDeparment";
+                    cmd.CommandType = CommandType.Text;
+
+                    cmd.Parameters.Add("@name", SqlDbType.VarChar);
+                    cmd.Parameters.Add("@budgent", SqlDbType.Decimal);
+                    cmd.Parameters.Add("@startdate", SqlDbType.Date);
+                    cmd.Parameters.Add("@administrator", SqlDbType.Int);
+
+                    cmd.Parameters["@name"].Value = model.Name;
+                    cmd.Parameters["@budgent"].Value = model.Budget;
+                    cmd.Parameters["@startdate"].Value = model.StartDate;
+                    cmd.Parameters["@administrator"].Value = model.Administratr;
+                    sqlConnection.Open();
+                    var execute = await cmd.ExecuteNonQueryAsync();
+                    return execute;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new BusinessException("Error consulte al administredor");
+            }
         }
 
         /// <inheritdoc/>
@@ -107,9 +133,36 @@ namespace Axity.DataAccessAdo.DataAccess.DAO.Department
         }
 
         /// <inheritdoc/>
-        public Task<List<DeparmentModel>> GetAllSp()
+        public async Task<List<DeparmentModel>> GetAllSp()
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var departmets = new List<DeparmentModel>();
+                using (SqlConnection con = new SqlConnection(this.connectionString))
+                {
+                    SqlCommand comman = new SqlCommand("GetDepartment", con);
+                    comman.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+                    var reader = await comman.ExecuteReaderAsync();
+                    while (reader.Read())
+                    {
+                        departmets.Add(new DeparmentModel()
+                        {
+                            Id = Convert.ToInt32(reader[0].ToString()),
+                            Name = reader[1].ToString(),
+                            Budget = Convert.ToDecimal(reader[2].ToString()),
+                            StartDate = Convert.ToDateTime(reader[3].ToString()),
+                            Administratr = Convert.ToInt32(reader[4].ToString()),
+                        });
+                    }
+                    return departmets;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new BusinessException("Error consulte al administredor");
+            }
         }
 
         /// <inheritdoc/>
@@ -155,8 +208,6 @@ namespace Axity.DataAccessAdo.DataAccess.DAO.Department
         /// <inheritdoc/>
         public async Task<DeparmentModel> GetByIdSp(int id)
         {
-
-
             try
             {
                 var departmets = new DeparmentModel();
@@ -227,15 +278,49 @@ namespace Axity.DataAccessAdo.DataAccess.DAO.Department
         }
 
         /// <inheritdoc/>
-        public Task<List<DeparmentModel>> GetPaginator(int page, int size)
+        public async Task<DataSet> GetPaginator(int page, int size)
         {
-            throw new System.NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                DataSet ds = new DataSet();
+                var paginator = "SELECT DepartmentID, Name, Budget, StartDate, Administrator from Department order by DepartmentID OFFSET @page ROWS FETCH NEXT @size ROW ONLY";
+                adapter.SelectCommand = new SqlCommand(paginator, connection);
+                adapter.SelectCommand.Parameters.AddWithValue("@page", page);
+                adapter.SelectCommand.Parameters.AddWithValue("@size", size);
+                adapter.Fill(ds);
+                return await Task.FromResult(ds);
+            }
         }
 
         /// <inheritdoc/>
-        public Task<int> Update(DeparmentModel model)
+        public async Task<int> Update(DeparmentModel model)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(this.connectionString))
+                {
+                    using SqlCommand cmd = sqlConnection.CreateCommand();
+                    cmd.CommandText = "update Department set Name = ?, Budget = ? where Department = ?;";
+                    cmd.CommandType = CommandType.Text;
+
+                    cmd.Parameters.Add("@Name", SqlDbType.VarChar);
+                    cmd.Parameters.Add("@Budget", SqlDbType.Decimal);
+                    cmd.Parameters.Add("@Id", SqlDbType.Int);
+
+                    cmd.Parameters["@Name"].Value = model.Name;
+                    cmd.Parameters["@Budget"].Value = model.Budget;
+                    cmd.Parameters["@Id"].Value = model.Id;
+                    sqlConnection.Open();
+                    var execute = await cmd.ExecuteNonQueryAsync();
+                    return execute;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new BusinessException("Error consulte al administredor");
+            }
         }
     }
 }

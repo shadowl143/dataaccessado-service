@@ -9,6 +9,7 @@
 namespace Axity.DataAccessAdo.DataAccess.DAO.Department
 {
     using System.Collections.Generic;
+    using System.Data;
     using System.Threading.Tasks;
     using Axity.DataAccessAdo.Entities.Model;
 
@@ -43,7 +44,7 @@ namespace Axity.DataAccessAdo.DataAccess.DAO.Department
         /// <param name="page">int page.</param>
         /// <param name="size">int size.</param>
         /// <returns>deparment.</returns>
-        Task<List<DeparmentModel>> GetPaginator(int page, int size);
+        Task<DataSet> GetPaginator(int page, int size);
 
         /// <summary>
         /// Create new deparment.

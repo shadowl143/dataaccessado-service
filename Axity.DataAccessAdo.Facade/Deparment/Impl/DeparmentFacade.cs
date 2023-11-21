@@ -80,8 +80,7 @@ namespace Axity.DataAccessAdo.Facade.Deparment.Impl
         /// <inheritdoc/>
         public async Task<ServiceResponse<List<DeparmentDto>>> GetPaginator(int page, int size)
         {
-            return new ServiceResponse<List<DeparmentDto>>(await this.modelService.GetAllSp());
-
+            return new ServiceResponse<List<DeparmentDto>>(await this.modelService.GetPaginator(page, size));
         }
 
         /// <inheritdoc/>
